@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import { getAdminProfile } from '../services/adminService';
 
 const AuthContext = createContext();
@@ -22,16 +16,13 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('admin');
-    setAdmin(null);
-    setIsAuthenticated(false);
+  // Check if user is already logged in on mount
+  useEffect(() => {
+    checkAuth();
   }, []);
 
-  const checkAuth = useCallback(async () => {
+  const checkAuth = async () => {
     const token = localStorage.getItem('token');
-
     if (token) {
       try {
         const response = await getAdminProfile();
@@ -41,20 +32,21 @@ export const AuthProvider = ({ children }) => {
         logout();
       }
     }
-
     setLoading(false);
-  }, [logout]);
-
-  // Check auth on mount
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+  };
 
   const login = (adminData, token) => {
     localStorage.setItem('token', token);
     localStorage.setItem('admin', JSON.stringify(adminData));
     setAdmin(adminData);
     setIsAuthenticated(true);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('admin');
+    setAdmin(null);
+    setIsAuthenticated(false);
   };
 
   const value = {

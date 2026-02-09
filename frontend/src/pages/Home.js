@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllQuestions } from '../services/questionService';
 import { toast } from 'react-toastify';
@@ -23,42 +23,35 @@ const Home = () => {
   const platforms = ['LeetCode', 'GFG', 'Codeforces', 'CodeChef', 'HackerRank', 'InterviewBit', 'Other'];
   const difficulties = ['Easy', 'Medium', 'Hard'];
 
-  const fetchQuestions = useCallback(async () => {
-  setLoading(true);
-  try {
-    const params = {
-      page: pagination.currentPage,
-      limit: 10,
-      ...(search && { search }),
-      ...(platform && { platform }),
-      ...(difficulty && { difficulty }),
-      ...(category && { category }),
-    };
-
-    const response = await getAllQuestions(params);
-
-    setQuestions(response.data);
-    setPagination({
-      currentPage: response.currentPage,
-      totalPages: response.totalPages,
-      total: response.total,
-    });
-  } catch (error) {
-    toast.error(error.response?.data?.message || 'Failed to fetch questions');
-  } finally {
-    setLoading(false);
-  }
-}, [
-  pagination.currentPage,
-  search,
-  platform,
-  difficulty,
-  category,
-]);
-
   useEffect(() => {
     fetchQuestions();
-  }, [fetchQuestions]);
+  }, [pagination.currentPage, search, platform, difficulty, category]);
+
+  const fetchQuestions = async () => {
+    setLoading(true);
+    try {
+      const params = {
+        page: pagination.currentPage,
+        limit: 10,
+        ...(search && { search }),
+        ...(platform && { platform }),
+        ...(difficulty && { difficulty }),
+        ...(category && { category }),
+      };
+
+      const response = await getAllQuestions(params);
+      setQuestions(response.data);
+      setPagination({
+        currentPage: response.currentPage,
+        totalPages: response.totalPages,
+        total: response.total,
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to fetch questions');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();

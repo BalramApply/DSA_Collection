@@ -29,6 +29,10 @@ const ManageQuestions = () => {
   const platforms = ['LeetCode', 'GFG', 'Codeforces', 'CodeChef', 'HackerRank', 'InterviewBit', 'Other'];
   const difficulties = ['Easy', 'Medium', 'Hard'];
 
+  useEffect(() => {
+    fetchQuestions();
+  }, [pagination.currentPage, search, platform, difficulty]);
+
   const fetchQuestions = async () => {
     setLoading(true);
     try {
@@ -54,10 +58,6 @@ const ManageQuestions = () => {
     }
   };
 
-  useEffect(() => {
-    fetchQuestions();
-  }, [pagination.currentPage, search, platform, difficulty]);
-  
   const handleEdit = (questionId) => {
     navigate(`/admin/edit-question/${questionId}`);
   };

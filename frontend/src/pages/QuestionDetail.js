@@ -10,7 +10,9 @@ const QuestionDetail = () => {
   const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  
+  useEffect(() => {
+    fetchQuestion();
+  }, [id]);
 
   const fetchQuestion = async () => {
     try {
@@ -23,10 +25,6 @@ const QuestionDetail = () => {
     }
   };
 
-  useEffect(() => {
-    fetchQuestion();
-  }, [id]);
-  
   const getDifficultyClass = (diff) => {
     const difficultyMap = {
       'Easy': styles.badgeEasy,
