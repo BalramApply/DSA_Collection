@@ -1,0 +1,372 @@
+/* Cyberpunk Minimalist Navbar Styles */
+
+/* Color Palette */
+:root {
+  --cyber-primary: #00fff9;
+  --cyber-secondary: #ff00ff;
+  --cyber-accent: #fffc00;
+  --cyber-dark: #0a0e27;
+  --cyber-darker: #050811;
+  --cyber-glow: rgba(0, 255, 249, 0.3);
+  --cyber-purple-glow: rgba(255, 0, 255, 0.3);
+}
+
+/* Navbar Container */
+.navbar {
+  background: linear-gradient(135deg, var(--cyber-darker) 0%, var(--cyber-dark) 100%);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid var(--cyber-primary);
+  box-shadow: 0 4px 20px rgba(0, 255, 249, 0.2), 0 0 40px rgba(255, 0, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--cyber-primary) 20%, 
+    var(--cyber-secondary) 50%, 
+    var(--cyber-primary) 80%, 
+    transparent 100%);
+  /* animation: scanline 3s linear infinite; */
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.navbarContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo Styles */
+.navbarLogo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--cyber-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.navbarLogo::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyber-primary), var(--cyber-secondary));
+  transition: width 0.4s ease;
+}
+
+.navbarLogo:hover::after {
+  width: 100%;
+}
+
+.navbarLogo:hover {
+  color: var(--cyber-secondary);
+  text-shadow: 0 0 10px var(--cyber-primary), 0 0 20px var(--cyber-primary);
+  transform: translateY(-2px);
+}
+
+.logoIcon {
+  font-size: 1.8rem;
+  animation: pulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px var(--cyber-primary));
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px var(--cyber-primary));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px var(--cyber-secondary));
+  }
+}
+
+/* Menu Container */
+.navbarMenu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Link Styles */
+.navbarLink {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 1px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.navbarLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--cyber-glow), transparent);
+  transition: left 0.5s ease;
+}
+
+.navbarLink:hover::before {
+  left: 100%;
+}
+
+.navbarLink:hover {
+  color: var(--cyber-primary);
+  border-color: var(--cyber-primary);
+  box-shadow: 0 0 15px var(--cyber-glow), inset 0 0 10px rgba(0, 255, 249, 0.1);
+  transform: translateY(-2px);
+}
+
+.navbarLink svg {
+  transition: transform 0.3s ease;
+}
+
+.navbarLink:hover svg {
+  transform: rotate(360deg);
+}
+
+/* Admin Info Section */
+.navbarAdminInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-left: 2rem;
+  border-left: 1px solid rgba(0, 255, 249, 0.3);
+}
+
+.adminEmail {
+  color: var(--cyber-accent);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.4rem 1rem;
+  background: rgba(255, 252, 0, 0.1);
+  border: 1px solid var(--cyber-accent);
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px rgba(255, 252, 0, 0.2);
+  }
+  to {
+    box-shadow: 0 0 15px rgba(255, 252, 0, 0.4), 0 0 25px rgba(255, 252, 0, 0.2);
+  }
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.7rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, var(--cyber-primary), var(--cyber-secondary));
+  color: var(--cyber-darker);
+  border: 2px solid var(--cyber-primary);
+  box-shadow: 0 4px 15px rgba(0, 255, 249, 0.3);
+}
+
+.btnPrimary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btnPrimary:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(0, 255, 249, 0.5), 0 0 30px rgba(255, 0, 255, 0.3);
+  border-color: var(--cyber-secondary);
+}
+
+.btnLogout {
+  background: rgba(255, 0, 255, 0.1);
+  color: var(--cyber-secondary);
+  border: 2px solid var(--cyber-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 1px;
+}
+
+.btnLogout::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, var(--cyber-purple-glow), transparent);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.btnLogout:hover::after {
+  width: 200px;
+  height: 200px;
+}
+
+.btnLogout:hover {
+  background: rgba(255, 0, 255, 0.2);
+  box-shadow: 0 0 20px var(--cyber-purple-glow);
+  transform: translateY(-2px);
+}
+
+.btnLogout svg {
+  transition: transform 0.3s ease;
+}
+
+.btnLogout:hover svg {
+  transform: translateX(3px);
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .navbarContainer {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .navbarMenu {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .navbarAdminInfo {
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid rgba(0, 255, 249, 0.3);
+    padding-top: 1rem;
+    width: 100%;
+  }
+
+  .navbarLink,
+  .btn,
+  .btnLogout {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbarLogo {
+    font-size: 1.2rem;
+  }
+
+  .logoIcon {
+    font-size: 1.5rem;
+  }
+
+  .navbarLink {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .btn,
+  .btnLogout {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* Glitch Effect on Hover (Optional Enhancement) */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.navbarLogo:active {
+  animation: glitch 0.3s ease;
+}

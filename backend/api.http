@@ -1,0 +1,111 @@
+### Base URL
+@baseUrl = http://localhost:5000
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODc1NDcwMTcyMTNjMmY1MzdjMjgxZSIsImlhdCI6MTc3MDQ3NjkwOSwiZXhwIjoxNzcxMDgxNzA5fQ.-vTJG28-wF48O-EW3q6HVgqveQZM6sq1_9cbYVgSPKY
+
+
+### ===============================
+### Admin Login
+### ===============================
+POST {{baseUrl}}/api/admin/login
+Content-Type: application/json
+
+{
+  "email": "admin@dsaplatform.com",
+  "password": "Admin@123"
+}
+
+
+### ===============================
+### Get Admin Profile (Protected)
+### ===============================
+GET {{baseUrl}}/api/admin/profile
+Authorization: Bearer {{adminToken}}
+
+@baseUrl = http://localhost:5000
+@questionsUrl = {{baseUrl}}/api/questions
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODc1NDcwMTcyMTNjMmY1MzdjMjgxZSIsImlhdCI6MTc3MDU0NDcwNywiZXhwIjoxNzcxMTQ5NTA3fQ.FbBGtJDDZcisMGknM5ij-__bIW9FxzDubZfxTWb2UNk
+@questionId = 69875b54a8f95f141e43e51c
+
+### ----------------------------------------------------
+### 1️⃣ Get all questions (basic)
+### ----------------------------------------------------
+GET {{questionsUrl}}
+Content-Type: application/json
+
+
+### ----------------------------------------------------
+### 2️⃣ Get all questions with search + filters + pagination
+### ----------------------------------------------------
+GET {{questionsUrl}}?search=Array&platform=LeetCode&difficulty=Easy&category=Array&page=1&limit=5
+Content-Type: application/json
+
+
+### ----------------------------------------------------
+### 3️⃣ Get single question by ID
+### ----------------------------------------------------
+GET {{questionsUrl}}/{{questionId}}
+Content-Type: application/json
+
+
+### ----------------------------------------------------
+### 4️⃣ Add new question (Admin only)
+### ----------------------------------------------------
+POST {{questionsUrl}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "title": "fou Sum",
+  "platform": "LeetCode",
+  "questionNumber": "123",
+  "difficulty": "Easy",
+  "category": "String",
+  "description": "hhGiven an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+  "example": "Input: nums = [2,7,11,15], target = 9 → Output: [0,1]",
+  "solution": "public int[] twoSum(int[] nums, int target) {\\n    Map<Integer, Integer> map = new HashMap<>();\\n\\n    for (int i = 0; i < nums.length; i++) {\\n        int complement = target - nums[i];\\n\\n        if (map.containsKey(complement)) {\\n            return new int[] { map.get(complement), i };\\n        }\\n\\n        map.put(nums[i], i);\\n    }\\n\\n    return new int[] {};\\n}",
+  "company": "Amazon"
+}
+
+
+
+### ----------------------------------------------------
+### 5️⃣ Update question (Admin only)
+### ----------------------------------------------------
+PUT {{questionsUrl}}/{{questionId}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "title": "Three Sum",
+  "platform": "LeetCode",
+  "questionNumber": "1",
+  "difficulty": "Easy",
+  "category": "Array",
+  "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+  "example": "Input: nums = [2,7,11,15], target = 9 → Output: [0,1]",
+  "solution": "public int[] twoSum(int[] nums, int target) {\\n    Map<Integer, Integer> map = new HashMap<>();\\n\\n    for (int i = 0; i < nums.length; i++) {\\n        int complement = target - nums[i];\\n\\n        if (map.containsKey(complement)) {\\n            return new int[] { map.get(complement), i };\\n        }\\n\\n        map.put(nums[i], i);\\n    }\\n\\n    return new int[] {};\\n}",
+  "company": "Amazon"
+}
+
+
+### ----------------------------------------------------
+### 6️⃣ Delete question (Admin only)
+### ----------------------------------------------------
+DELETE {{questionsUrl}}/{{questionId}}
+Authorization: Bearer {{adminToken}}
+
+### ================================
+### Admin Dashboard Analytics API
+### ================================
+
+@baseUrl = http://localhost:5000
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODc1NDcwMTcyMTNjMmY1MzdjMjgxZSIsImlhdCI6MTc3MDQ3ODc0NSwiZXhwIjoxNzcxMDgzNTQ1fQ.Ie-irtG6CZfGV2QwO9DeCQkF41fkNVzdABPCzwHTPmM
+
+
+### 🔐 Get Admin Dashboard Analytics
+### @route   GET /api/admin/dashboard
+### @access  Private (Admin only)
+
+GET {{baseUrl}}/api/admin/dashboard
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json

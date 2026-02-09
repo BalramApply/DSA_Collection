@@ -1,0 +1,709 @@
+/* Cyberpunk Minimalist Edit Question Styles */
+
+/* Color Palette */
+:root {
+  --cyber-primary: #00fff9;
+  --cyber-secondary: #ff00ff;
+  --cyber-accent: #fffc00;
+  --cyber-dark: #0a0e27;
+  --cyber-darker: #050811;
+  --cyber-card-bg: #0d1128;
+  --cyber-glow: rgba(0, 255, 249, 0.3);
+  --cyber-purple-glow: rgba(255, 0, 255, 0.3);
+  --cyber-yellow-glow: rgba(255, 252, 0, 0.3);
+}
+
+/* Page Container */
+.editQuestionPage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--cyber-darker) 0%, var(--cyber-dark) 50%, var(--cyber-darker) 100%);
+  padding: 2rem 0 4rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.editQuestionPage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255, 0, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 255, 0.03) 1px, transparent 1px);
+  background-size: 45px 45px;
+  pointer-events: none;
+  /* animation: gridWave 22s linear infinite; */
+}
+
+@keyframes gridWave {
+  0% {
+    transform: translate(0, 0) skew(0deg);
+  }
+  100% {
+    transform: translate(45px, 45px) skew(1deg);
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Page Header */
+.pageHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: headerDropIn 0.8s ease-out;
+}
+
+@keyframes headerDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.pageHeader h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--cyber-secondary), var(--cyber-primary), var(--cyber-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  animation: titleShimmer 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleShimmer {
+  from {
+    filter: drop-shadow(0 0 15px var(--cyber-secondary));
+  }
+  to {
+    filter: drop-shadow(0 0 30px var(--cyber-primary));
+  }
+}
+
+.pageHeader h1 svg {
+  animation: editIconBounce 2s ease-in-out infinite;
+}
+
+@keyframes editIconBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-5deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(5deg);
+  }
+}
+
+.pageHeader p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* Question Form */
+.questionForm {
+  background: linear-gradient(135deg, rgba(13, 17, 40, 0.95), rgba(10, 14, 39, 0.98));
+  border: 2px solid var(--cyber-secondary);
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 
+    0 15px 50px rgba(255, 0, 255, 0.3),
+    0 0 80px rgba(0, 255, 249, 0.2),
+    inset 0 0 40px rgba(255, 0, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+  animation: formExpand 0.8s ease-out 0.2s both;
+}
+
+@keyframes formExpand {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animated Border Effects */
+.questionForm::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent,
+    var(--cyber-secondary),
+    transparent 30%
+  );
+  animation: rotateBorder 6s linear infinite;
+  opacity: 0.3;
+}
+
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.questionForm::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background: linear-gradient(135deg, rgba(13, 17, 40, 0.98), rgba(10, 14, 39, 0.99));
+  border-radius: 14px;
+  z-index: 0;
+}
+
+/* Form Elements Container */
+.questionForm > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Form Row */
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 0;
+}
+
+/* Form Group */
+.formGroup {
+  margin-bottom: 2rem;
+  animation: fieldSlideIn 0.6s ease-out backwards;
+}
+
+.formGroup:nth-child(1) { animation-delay: 0.3s; }
+.formGroup:nth-child(2) { animation-delay: 0.35s; }
+.formGroup:nth-child(3) { animation-delay: 0.4s; }
+.formGroup:nth-child(4) { animation-delay: 0.45s; }
+.formGroup:nth-child(5) { animation-delay: 0.5s; }
+.formGroup:nth-child(6) { animation-delay: 0.55s; }
+.formGroup:nth-child(7) { animation-delay: 0.6s; }
+.formGroup:nth-child(8) { animation-delay: 0.65s; }
+.formGroup:nth-child(9) { animation-delay: 0.7s; }
+
+@keyframes fieldSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.formGroup label {
+  display: block;
+  color: var(--cyber-secondary);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+  padding-left: 15px;
+}
+
+.formGroup label::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  color: var(--cyber-primary);
+  animation: diamondPulse 2s ease-in-out infinite;
+}
+
+@keyframes diamondPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+.required {
+  color: #ff0044;
+  font-weight: 700;
+  margin-left: 0.25rem;
+  animation: requiredBlink 2s ease-in-out infinite;
+}
+
+@keyframes requiredBlink {
+  0%, 100% {
+    opacity: 0.7;
+    text-shadow: 0 0 5px rgba(255, 0, 68, 0.5);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 15px rgba(255, 0, 68, 0.9);
+  }
+}
+
+/* Form Control */
+.formControl {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: rgba(6, 10, 26, 0.8);
+  border: 2px solid rgba(255, 0, 255, 0.3);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+  position: relative;
+}
+
+.formControl::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
+.formControl:focus {
+  outline: none;
+  border-color: var(--cyber-secondary);
+  background: rgba(6, 10, 26, 1);
+  box-shadow: 
+    0 0 25px var(--cyber-purple-glow),
+    inset 0 0 15px rgba(255, 0, 255, 0.1);
+  transform: translateY(-2px);
+  animation: focusRipple 2s ease-in-out infinite;
+}
+
+@keyframes focusRipple {
+  0%, 100% {
+    box-shadow: 0 0 25px var(--cyber-purple-glow), inset 0 0 15px rgba(255, 0, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 35px var(--cyber-glow), inset 0 0 20px rgba(0, 255, 249, 0.1);
+  }
+}
+
+.formControl:hover {
+  border-color: var(--cyber-primary);
+}
+
+/* Select Dropdown */
+select.formControl {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ff00ff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 3rem;
+}
+
+select.formControl option {
+  background: var(--cyber-dark);
+  color: #ffffff;
+  padding: 0.5rem;
+}
+
+/* Textarea */
+textarea.formControl {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+  font-family: inherit;
+}
+
+.codeTextarea {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  background: rgba(6, 10, 26, 0.95);
+  border-color: rgba(0, 255, 249, 0.4);
+  min-height: 250px;
+}
+
+.codeTextarea:focus {
+  border-color: var(--cyber-primary);
+  box-shadow: 
+    0 0 25px var(--cyber-glow),
+    inset 0 0 15px rgba(0, 255, 249, 0.1);
+}
+
+/* Form Actions */
+.formActions {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid rgba(255, 0, 255, 0.2);
+  animation: actionsRiseUp 0.8s ease-out 0.8s both;
+}
+
+@keyframes actionsRiseUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Buttons */
+.btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.btnPrimary {
+  flex: 1;
+  background: linear-gradient(135deg, var(--cyber-secondary), var(--cyber-primary));
+  color: var(--cyber-darker);
+  border: 2px solid var(--cyber-secondary);
+  box-shadow: 0 8px 25px rgba(255, 0, 255, 0.4);
+}
+
+.btnPrimary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btnPrimary:hover::before {
+  width: 500px;
+  height: 500px;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 12px 35px rgba(255, 0, 255, 0.6),
+    0 0 50px rgba(0, 255, 249, 0.3);
+  border-color: var(--cyber-primary);
+}
+
+.btnPrimary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  animation: savingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes savingPulse {
+  0%, 100% {
+    box-shadow: 0 8px 25px rgba(255, 0, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 8px 25px rgba(0, 255, 249, 0.6);
+  }
+}
+
+.btnOutline {
+  flex: 0 0 auto;
+  background: transparent;
+  color: var(--cyber-accent);
+  border: 2px solid var(--cyber-accent);
+  padding: 1rem 2rem;
+}
+
+.btnOutline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 252, 0, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btnOutline:hover::before {
+  left: 100%;
+}
+
+.btnOutline:hover {
+  background: rgba(255, 252, 0, 0.1);
+  box-shadow: 0 0 25px var(--cyber-yellow-glow);
+  transform: translateY(-2px);
+}
+
+/* Button Icons */
+.btn svg {
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.btnPrimary:hover svg {
+  transform: scale(1.2) rotate(15deg);
+  animation: iconWobble 0.5s ease-in-out;
+}
+
+@keyframes iconWobble {
+  0%, 100% {
+    transform: scale(1.2) rotate(15deg);
+  }
+  25% {
+    transform: scale(1.2) rotate(20deg);
+  }
+  75% {
+    transform: scale(1.2) rotate(10deg);
+  }
+}
+
+.btnOutline:hover svg {
+  transform: scale(1.1) translateX(-5px);
+}
+
+/* Loading Container */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.spinner {
+  width: 80px;
+  height: 80px;
+  border: 5px solid rgba(255, 0, 255, 0.1);
+  border-top: 5px solid var(--cyber-secondary);
+  border-right: 5px solid var(--cyber-primary);
+  border-bottom: 5px solid var(--cyber-accent);
+  border-radius: 50%;
+  animation: spinMultiColor 1.2s linear infinite;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 30px var(--cyber-purple-glow);
+}
+
+@keyframes spinMultiColor {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingContainer p {
+  color: var(--cyber-secondary);
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  animation: loadingBlink 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingBlink {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Validation States */
+.formControl:valid:not(:placeholder-shown) {
+  border-color: var(--cyber-primary);
+  background: rgba(0, 255, 249, 0.03);
+}
+
+.formControl:invalid:not(:placeholder-shown):not(:focus) {
+  border-color: #ff0044;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageHeader h1 {
+    font-size: 2.2rem;
+  }
+
+  .questionForm {
+    padding: 2rem;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .btnOutline {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .pageHeader h1 {
+    font-size: 1.8rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .questionForm {
+    padding: 1.5rem;
+  }
+
+  .formControl {
+    padding: 0.9rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Additional Cyber Effects */
+.questionForm:hover {
+  box-shadow: 
+    0 15px 50px rgba(255, 0, 255, 0.4),
+    0 0 100px rgba(0, 255, 249, 0.3),
+    inset 0 0 40px rgba(255, 0, 255, 0.05);
+}
+
+/* Success State Animation */
+@keyframes successFlash {
+  0%, 100% {
+    border-color: var(--cyber-primary);
+  }
+  50% {
+    border-color: var(--cyber-accent);
+    box-shadow: 0 0 30px var(--cyber-yellow-glow);
+  }
+}
+
+/* Field Highlight on Focus */
+.formGroup:focus-within label {
+  color: var(--cyber-primary);
+  text-shadow: 0 0 10px var(--cyber-glow);
+}
+
+.formGroup:focus-within label::before {
+  color: var(--cyber-accent);
+  animation: diamondSpin 0.6s ease-in-out;
+}
+
+@keyframes diamondSpin {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.5) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+/* Corner Decorations */
+.questionForm::before {
+  z-index: 0;
+}
+
+.questionForm::after {
+  z-index: 0;
+}
+
+/* Loading State for Button */
+.btnPrimary:disabled::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--cyber-darker);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: buttonSpinner 0.8s linear infinite;
+  z-index: 2;
+}
+
+@keyframes buttonSpinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

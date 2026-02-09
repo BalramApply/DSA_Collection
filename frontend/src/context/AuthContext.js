@@ -1,0 +1,61 @@
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { getAdminProfile } from '../services/adminService';
+
+const AuthContext = createContext();
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
+};
+
+export const AuthProvider = ({ children }) => {
+  const [admin, setAdmin] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Check if user is already logged in on mount
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const response = await getAdminProfile();
+        setAdmin(response.data);
+        setIsAuthenticated(true);
+      } catch (error) {
+        logout();
+      }
+    }
+    setLoading(false);
+  };
+
+  const login = (adminData, token) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('admin', JSON.stringify(adminData));
+    setAdmin(adminData);
+    setIsAuthenticated(true);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('admin');
+    setAdmin(null);
+    setIsAuthenticated(false);
+  };
+
+  const value = {
+    admin,
+    isAuthenticated,
+    loading,
+    login,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
