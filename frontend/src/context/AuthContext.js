@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect,useCallback } from 'react';
 import { getAdminProfile } from '../services/adminService';
 
 const AuthContext = createContext();
@@ -19,21 +19,24 @@ export const AuthProvider = ({ children }) => {
   // Check if user is already logged in on mount
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
-  const checkAuth = async () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const response = await getAdminProfile();
-        setAdmin(response.data);
-        setIsAuthenticated(true);
-      } catch (error) {
-        logout();
-      }
+  const checkAuth = useCallback(async () => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    try {
+      const response = await getAdminProfile();
+      setAdmin(response.data);
+      setIsAuthenticated(true);
+    } catch (error) {
+      logout();
     }
-    setLoading(false);
-  };
+  }
+
+  setLoading(false);
+}, []);
+
 
   const login = (adminData, token) => {
     localStorage.setItem('token', token);
