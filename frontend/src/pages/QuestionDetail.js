@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getQuestionById } from '../services/questionService';
 import { toast } from 'react-toastify';
@@ -10,11 +10,7 @@ const QuestionDetail = () => {
   const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchQuestion();
-  }, [id]);
-
-  const fetchQuestion = async () => {
+  const fetchQuestion = useCallback(async () => {
     try {
       const response = await getQuestionById(id);
       setQuestion(response.data);
@@ -23,13 +19,17 @@ const QuestionDetail = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchQuestion();
+  }, [fetchQuestion]);
 
   const getDifficultyClass = (diff) => {
     const difficultyMap = {
-      'Easy': styles.badgeEasy,
-      'Medium': styles.badgeMedium,
-      'Hard': styles.badgeHard,
+      Easy: styles.badgeEasy,
+      Medium: styles.badgeMedium,
+      Hard: styles.badgeHard,
     };
     return `${styles.badge} ${difficultyMap[diff] || ''}`;
   };

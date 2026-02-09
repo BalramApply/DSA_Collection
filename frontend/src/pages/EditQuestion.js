@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getQuestionById, updateQuestion } from '../services/questionService';
 import { toast } from 'react-toastify';
@@ -22,17 +22,22 @@ const EditQuestion = () => {
     company: '',
   });
 
-  const platforms = ['LeetCode', 'GFG', 'Codeforces', 'CodeChef', 'HackerRank', 'InterviewBit', 'Other'];
+  const platforms = [
+    'LeetCode',
+    'GFG',
+    'Codeforces',
+    'CodeChef',
+    'HackerRank',
+    'InterviewBit',
+    'Other',
+  ];
   const difficulties = ['Easy', 'Medium', 'Hard'];
 
-  useEffect(() => {
-    fetchQuestion();
-  }, [id]);
-
-  const fetchQuestion = async () => {
+  const fetchQuestion = useCallback(async () => {
     try {
       const response = await getQuestionById(id);
       const question = response.data;
+
       setFormData({
         title: question.title,
         platform: question.platform,
@@ -50,7 +55,11 @@ const EditQuestion = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, navigate]);
+
+  useEffect(() => {
+    fetchQuestion();
+  }, [fetchQuestion]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,9 +68,14 @@ const EditQuestion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!formData.title || !formData.questionNumber || !formData.category || 
-        !formData.description || !formData.example || !formData.solution) {
+    if (
+      !formData.title ||
+      !formData.questionNumber ||
+      !formData.category ||
+      !formData.description ||
+      !formData.example ||
+      !formData.solution
+    ) {
       toast.error('Please fill in all required fields');
       return;
     }

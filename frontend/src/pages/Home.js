@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllQuestions } from '../services/questionService';
 import { toast } from 'react-toastify';
@@ -20,14 +20,18 @@ const Home = () => {
   const [difficulty, setDifficulty] = useState('');
   const [category, setCategory] = useState('');
 
-  const platforms = ['LeetCode', 'GFG', 'Codeforces', 'CodeChef', 'HackerRank', 'InterviewBit', 'Other'];
+  const platforms = [
+    'LeetCode',
+    'GFG',
+    'Codeforces',
+    'CodeChef',
+    'HackerRank',
+    'InterviewBit',
+    'Other',
+  ];
   const difficulties = ['Easy', 'Medium', 'Hard'];
 
-  useEffect(() => {
-    fetchQuestions();
-  }, [pagination.currentPage, search, platform, difficulty, category]);
-
-  const fetchQuestions = async () => {
+  const fetchQuestions = useCallback(async () => {
     setLoading(true);
     try {
       const params = {
@@ -40,6 +44,7 @@ const Home = () => {
       };
 
       const response = await getAllQuestions(params);
+
       setQuestions(response.data);
       setPagination({
         currentPage: response.currentPage,
@@ -51,11 +56,21 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    pagination.currentPage,
+    search,
+    platform,
+    difficulty,
+    category,
+  ]);
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setPagination({ ...pagination, currentPage: 1 });
+    setPagination((prev) => ({ ...prev, currentPage: 1 }));
   };
 
   const handleReset = () => {
@@ -63,7 +78,7 @@ const Home = () => {
     setPlatform('');
     setDifficulty('');
     setCategory('');
-    setPagination({ ...pagination, currentPage: 1 });
+    setPagination((prev) => ({ ...prev, currentPage: 1 }));
   };
 
   const getDifficultyClass = (diff) => {

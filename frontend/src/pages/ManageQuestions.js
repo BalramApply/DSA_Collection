@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllQuestions, deleteQuestion } from '../services/questionService';
 import DeleteModal from '../components/DeleteModal';
@@ -26,14 +26,18 @@ const ManageQuestions = () => {
   const [platform, setPlatform] = useState('');
   const [difficulty, setDifficulty] = useState('');
 
-  const platforms = ['LeetCode', 'GFG', 'Codeforces', 'CodeChef', 'HackerRank', 'InterviewBit', 'Other'];
+  const platforms = [
+    'LeetCode',
+    'GFG',
+    'Codeforces',
+    'CodeChef',
+    'HackerRank',
+    'InterviewBit',
+    'Other',
+  ];
   const difficulties = ['Easy', 'Medium', 'Hard'];
 
-  useEffect(() => {
-    fetchQuestions();
-  }, [pagination.currentPage, search, platform, difficulty]);
-
-  const fetchQuestions = async () => {
+  const fetchQuestions = useCallback(async () => {
     setLoading(true);
     try {
       const params = {
@@ -45,6 +49,7 @@ const ManageQuestions = () => {
       };
 
       const response = await getAllQuestions(params);
+
       setQuestions(response.data);
       setPagination({
         currentPage: response.currentPage,
@@ -56,7 +61,16 @@ const ManageQuestions = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    pagination.currentPage,
+    search,
+    platform,
+    difficulty,
+  ]);
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
 
   const handleEdit = (questionId) => {
     navigate(`/admin/edit-question/${questionId}`);
@@ -76,7 +90,7 @@ const ManageQuestions = () => {
       toast.success('Question deleted successfully!');
       setShowDeleteModal(false);
       setQuestionToDelete(null);
-      fetchQuestions(); // Refresh list
+      fetchQuestions(); // still safe
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to delete question');
     } finally {
@@ -86,14 +100,14 @@ const ManageQuestions = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setPagination({ ...pagination, currentPage: 1 });
+    setPagination((prev) => ({ ...prev, currentPage: 1 }));
   };
 
   const handleReset = () => {
     setSearch('');
     setPlatform('');
     setDifficulty('');
-    setPagination({ ...pagination, currentPage: 1 });
+    setPagination((prev) => ({ ...prev, currentPage: 1 }));
   };
 
   const getDifficultyClass = (diff) => {
