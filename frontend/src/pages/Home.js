@@ -23,10 +23,6 @@ const Home = () => {
   const platforms = ['LeetCode', 'GFG', 'Codeforces', 'CodeChef', 'HackerRank', 'InterviewBit', 'Other'];
   const difficulties = ['Easy', 'Medium', 'Hard'];
 
-  useEffect(() => {
-    fetchQuestions();
-  }, [pagination.currentPage, search, platform, difficulty, category]);
-
   const fetchQuestions = useCallback(async () => {
   setLoading(true);
   try {
@@ -60,6 +56,9 @@ const Home = () => {
   category,
 ]);
 
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();

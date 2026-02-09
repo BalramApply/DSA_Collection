@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getQuestionById, updateQuestion } from '../services/questionService';
 import { toast } from 'react-toastify';
@@ -25,33 +25,34 @@ const EditQuestion = () => {
   const platforms = ['LeetCode', 'GFG', 'Codeforces', 'CodeChef', 'HackerRank', 'InterviewBit', 'Other'];
   const difficulties = ['Easy', 'Medium', 'Hard'];
 
+  const fetchQuestion = useCallback(async () => {
+  try {
+    const response = await getQuestionById(id);
+    const question = response.data;
+
+    setFormData({
+      title: question.title,
+      platform: question.platform,
+      questionNumber: question.questionNumber,
+      difficulty: question.difficulty,
+      category: question.category,
+      description: question.description,
+      example: question.example,
+      solution: question.solution,
+      company: question.company || '',
+    });
+  } catch (error) {
+    toast.error(error.response?.data?.message || 'Failed to fetch question');
+    navigate('/admin/dashboard');
+  } finally {
+    setLoading(false);
+  }
+}, [id, navigate]);
+
   useEffect(() => {
     fetchQuestion();
-  }, [id]);
-
-  const fetchQuestion = async () => {
-    try {
-      const response = await getQuestionById(id);
-      const question = response.data;
-      setFormData({
-        title: question.title,
-        platform: question.platform,
-        questionNumber: question.questionNumber,
-        difficulty: question.difficulty,
-        category: question.category,
-        description: question.description,
-        example: question.example,
-        solution: question.solution,
-        company: question.company || '',
-      });
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to fetch question');
-      navigate('/admin/dashboard');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  }, [fetchQuestion]);
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
